@@ -2,14 +2,14 @@ import Image from "next/image";
 
 export default function Home() {
   return (
-      <main className="bg-slate-950 text-white">
+      <main className="overflow-x-hidden bg-slate-950 text-white">
         <nav className="fixed left-0 top-0 z-50 w-full border-b border-slate-800 bg-slate-950/90 backdrop-blur">
-          <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
-            <a href="#" className="text-xl font-bold text-white">
+          <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-4 sm:px-6">
+            <a href="#" className="text-lg font-bold text-white sm:text-xl">
               Dhods<span className="text-blue-400">.</span>
             </a>
 
-            <div className="flex items-center gap-5 text-sm font-medium text-slate-300">
+            <div className="flex items-center gap-3 text-xs font-medium text-slate-300 sm:gap-6 sm:text-sm">
               <a className="transition hover:text-blue-400" href="#">
                 Home
               </a>
@@ -26,28 +26,28 @@ export default function Home() {
         </nav>
         {/* Hero section */}
         {/* Hero section */}
-        <section className="flex min-h-screen items-center px-6 pb-16 pt-28">
-          <div className="mx-auto grid max-w-6xl items-center gap-12 md:grid-cols-2">
+        <section className="flex min-h-screen items-center px-4 pb-16 pt-28 sm:px-6">
+          <div className="mx-auto grid w-full max-w-6xl items-center gap-10 md:grid-cols-2 md:gap-12">
             {/* Introduction */}
             <div className="text-center md:text-left">
               <p className="mb-4 text-sm font-semibold uppercase tracking-widest text-blue-400">
                 Quality Assurance • Agile • AI
               </p>
 
-              <h1 className="mb-6 text-5xl font-bold">
+              <h1 className="mb-6 text-4xl font-bold leading-tight sm:text-5xl">
                 Hi, I&apos;m Dhods Soledad
               </h1>
 
-              <p className="mb-8 text-lg leading-relaxed text-slate-300">
+              <p className="mb-8 text-base leading-relaxed text-slate-300 sm:text-lg">
                 I&apos;m a Quality Assurance Lead passionate about building better
                 digital experiences through quality engineering, Agile delivery,
                 AI-powered automation, and technology-driven ministry.
               </p>
 
-              <div className="flex flex-wrap justify-center gap-4 md:justify-start">
+              <div className="flex flex-col justify-center gap-3 sm:flex-row sm:flex-wrap sm:gap-4 md:justify-start">
                 <a
                     href="#about"
-                    className="rounded-lg bg-blue-600 px-6 py-3 font-semibold transition hover:bg-blue-500"
+                    className="w-full rounded-lg bg-blue-600 px-6 py-3 text-center font-semibold transition hover:bg-blue-500 sm:w-auto"
                 >
                   About Me
                 </a>
@@ -72,8 +72,7 @@ export default function Home() {
 
             {/* Profile picture */}
             <div className="flex justify-center">
-              <div className="relative h-80 w-80 overflow-hidden rounded-full border-4 border-blue-500 bg-slate-800 shadow-2xl shadow-blue-500/20">
-                <Image
+              <div className="relative h-64 w-64 overflow-hidden rounded-full border-4 border-blue-500 bg-slate-800 shadow-2xl shadow-blue-500/20 sm:h-80 sm:w-80">                <Image
                     src="/profile.png"
                     alt="Professional portrait of Dhods Soledad"
                     fill

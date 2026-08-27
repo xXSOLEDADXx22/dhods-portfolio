@@ -1,6 +1,27 @@
 export default function Home() {
   return (
       <main className="bg-slate-950 text-white">
+        <nav className="fixed left-0 top-0 z-50 w-full border-b border-slate-800 bg-slate-950/90 backdrop-blur">
+          <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
+            <a href="#" className="text-xl font-bold text-white">
+              Dhods<span className="text-blue-400">.</span>
+            </a>
+
+            <div className="flex items-center gap-5 text-sm font-medium text-slate-300">
+              <a className="transition hover:text-blue-400" href="#">
+                Home
+              </a>
+
+              <a className="transition hover:text-blue-400" href="#about">
+                About
+              </a>
+
+              <a className="transition hover:text-blue-400" href="#contact">
+                Contact
+              </a>
+            </div>
+          </div>
+        </nav>
         {/* Hero section */}
         <section className="flex min-h-screen items-center justify-center px-6">
           <div className="max-w-3xl text-center">

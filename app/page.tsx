@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 export default function Home() {
   return (
       <main className="bg-slate-950 text-white">
@@ -23,36 +25,63 @@ export default function Home() {
           </div>
         </nav>
         {/* Hero section */}
-        <section className="flex min-h-screen items-center justify-center px-6">
-          <div className="max-w-3xl text-center">
-            <p className="mb-4 text-sm font-semibold uppercase tracking-widest text-blue-400">
-              Quality Assurance • Agile • AI
-            </p>
+        {/* Hero section */}
+        <section className="flex min-h-screen items-center px-6 pb-16 pt-28">
+          <div className="mx-auto grid max-w-6xl items-center gap-12 md:grid-cols-2">
+            {/* Introduction */}
+            <div className="text-center md:text-left">
+              <p className="mb-4 text-sm font-semibold uppercase tracking-widest text-blue-400">
+                Quality Assurance • Agile • AI
+              </p>
 
-            <h1 className="mb-6 text-5xl font-bold">
-              Hi, I&apos;m Dhods Soledad
-            </h1>
+              <h1 className="mb-6 text-5xl font-bold">
+                Hi, I&apos;m Dhods Soledad
+              </h1>
 
-            <p className="mb-8 text-lg leading-relaxed text-slate-300">
-              I&apos;m a Quality Assurance Lead passionate about building better
-              digital experiences through quality engineering, Agile delivery,
-              AI-powered automation, and technology-driven ministry.
-            </p>
+              <p className="mb-8 text-lg leading-relaxed text-slate-300">
+                I&apos;m a Quality Assurance Lead passionate about building better
+                digital experiences through quality engineering, Agile delivery,
+                AI-powered automation, and technology-driven ministry.
+              </p>
 
-            <div className="flex flex-wrap justify-center gap-4">
-              <a
-                  href="#about"
-                  className="rounded-lg bg-blue-600 px-6 py-3 font-semibold transition hover:bg-blue-500"
-              >
-                About Me
-              </a>
+              <div className="flex flex-wrap justify-center gap-4 md:justify-start">
+                <a
+                    href="#about"
+                    className="rounded-lg bg-blue-600 px-6 py-3 font-semibold transition hover:bg-blue-500"
+                >
+                  About Me
+                </a>
 
-              <a
-                  href="#contact"
-                  className="rounded-lg border border-slate-600 px-6 py-3 font-semibold transition hover:border-blue-400"
-              >
-                Contact Me
-              </a>
+                <a
+                    href="#contact"
+                    className="rounded-lg border border-slate-600 px-6 py-3 font-semibold transition hover:border-blue-400"
+                >
+                  Contact Me
+                </a>
+
+                <a
+                    href="/Dhods-Soledad-Resume.pdf"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="rounded-lg border border-blue-500 px-6 py-3 font-semibold text-blue-400 transition hover:bg-blue-500 hover:text-white"
+                >
+                  View Résumé
+                </a>
+              </div>
+            </div>
+
+            {/* Profile picture */}
+            <div className="flex justify-center">
+              <div className="relative h-80 w-80 overflow-hidden rounded-full border-4 border-blue-500 bg-slate-800 shadow-2xl shadow-blue-500/20">
+                <Image
+                    src="/profile.png"
+                    alt="Professional portrait of Dhods Soledad"
+                    fill
+                    priority
+                    className="object-cover"
+                    sizes="(max-width: 768px) 320px, 320px"
+                />
+              </div>
             </div>
           </div>
         </section>

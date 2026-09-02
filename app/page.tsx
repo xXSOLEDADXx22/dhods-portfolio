@@ -1,155 +1,255 @@
 /* eslint-disable @next/next/no-img-element */
 
-import { client } from "@/sanity/lib/client";
-import { PROFILE_QUERY } from "@/sanity/lib/queries";
+import BackToTop from "@/components/BackToTop";
+import LogoMarquee from "@/components/LogoMarquee";
+import SiteNavigation from "@/components/SiteNavigation";
+import { portfolio } from "@/data/portfolio";
 
-export default async function Home() {
-  const profile = await client.fetch(
-      PROFILE_QUERY,
-      {},
-      {
-        cache: "no-store",
-      },
+function initials(name: string) {
+  return name
+      .split(" ")
+      .map((part) => part[0])
+      .join("")
+      .slice(0, 2)
+      .toUpperCase();
+}
+
+export default function Home() {
+  const visibleSocials = portfolio.socialLinks.filter(
+      (social) => social.url.length > 0,
   );
 
-  const profileImageUrl =
-      profile?.profileImage?.asset?.url ?? "/profile.png";
-
-  const profileImageAlt =
-      profile?.profileImage?.alt ??
-      `Professional portrait of ${profile?.fullName ?? "Dhods Soledad"}`;
-
-  const resumeUrl =
-      profile?.resume?.asset?.url ?? "/Dhods-Soledad-Resume.pdf";
-
   return (
-      <main className="overflow-x-hidden bg-slate-950 text-white">
-        {/* Navigation */}
-        <nav className="fixed left-0 top-0 z-50 w-full border-b border-slate-800 bg-slate-950/90 backdrop-blur">
-          <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-4 sm:px-6">
-            <a href="#" className="text-lg font-bold text-white sm:text-xl">
-              Dhods<span className="text-blue-400">.</span>
-            </a>
-
-            <div className="flex items-center gap-3 text-xs font-medium text-slate-300 sm:gap-6 sm:text-sm">
-              <a className="transition hover:text-blue-400" href="#">
-                Home
-              </a>
-
-              <a className="transition hover:text-blue-400" href="#about">
-                About
-              </a>
-
-              <a className="transition hover:text-blue-400" href="#contact">
-                Contact
-              </a>
-            </div>
-          </div>
-        </nav>
+      <main className="min-h-screen overflow-x-hidden bg-[#060610] text-white">
+        <SiteNavigation />
 
         {/* Hero */}
-        <section className="flex min-h-screen items-center px-4 pb-16 pt-28 sm:px-6">
-          <div className="mx-auto grid w-full max-w-6xl items-center gap-10 md:grid-cols-2 md:gap-12">
-            {/* Introduction */}
-            <div className="text-center md:text-left">
-              <p className="mb-4 text-sm font-semibold uppercase tracking-widest text-blue-400">
-                {profile?.headline ?? "Quality Assurance • Agile • AI"}
+        <section className="relative flex min-h-screen items-center overflow-hidden px-4 pb-20 pt-28 sm:px-6">
+          <div className="absolute left-[-8rem] top-24 h-72 w-72 rounded-full bg-blue-600/20 blur-3xl" />
+          <div className="absolute right-[-8rem] top-1/3 h-80 w-80 rounded-full bg-violet-600/20 blur-3xl" />
+          <div className="absolute bottom-0 left-1/2 h-64 w-64 rounded-full bg-pink-600/10 blur-3xl" />
+
+          <div className="relative mx-auto grid w-full max-w-6xl items-center gap-12 md:grid-cols-2">
+            <div className="animate-fade-up text-center md:text-left">
+              <p className="mb-5 text-sm font-bold uppercase tracking-[0.25em] text-blue-400">
+                {portfolio.profile.headline}
               </p>
 
-              <h1 className="mb-4 text-4xl font-bold leading-tight sm:text-5xl">
-                Hi, I&apos;m {profile?.fullName ?? "Dhods Soledad"}
+              <h1 className="mb-5 text-4xl font-black leading-tight sm:text-6xl">
+                Hi, I&apos;m{" "}
+                <span className="bg-gradient-to-r from-blue-400 via-violet-400 to-pink-400 bg-clip-text text-transparent">
+                {portfolio.profile.name}
+              </span>
               </h1>
 
-              <p className="mb-3 text-lg font-semibold text-slate-200">
-                {profile?.professionalTitle ?? "Quality Assurance Lead"}
+              <p className="mb-3 text-xl font-semibold text-white">
+                {portfolio.profile.title}
               </p>
 
-              <p className="mb-4 text-base leading-relaxed text-slate-300 sm:text-lg">
-                {profile?.introduction ??
-                    "I’m passionate about building better digital experiences."}
+              <p className="mx-auto mb-4 max-w-xl text-base leading-relaxed text-slate-300 sm:text-lg md:mx-0">
+                {portfolio.profile.introduction}
               </p>
 
-              {profile?.location && (
-                  <p className="mb-8 text-sm text-slate-400">
-                    📍 {profile.location}
-                  </p>
-              )}
+              <p className="mb-8 text-sm text-slate-400">
+                📍 {portfolio.profile.location}
+              </p>
 
-              <div className="flex flex-col justify-center gap-3 sm:flex-row sm:flex-wrap sm:gap-4 md:justify-start">
+              <div className="flex flex-col justify-center gap-3 sm:flex-row sm:flex-wrap md:justify-start">
                 <a
                     href="#about"
-                    className="w-full rounded-lg bg-blue-600 px-6 py-3 text-center font-semibold transition hover:bg-blue-500 sm:w-auto"
+                    className="rounded-xl bg-gradient-to-r from-blue-500 via-violet-500 to-pink-500 px-6 py-3 text-center font-semibold transition hover:scale-105"
                 >
-                  About Me
+                  Discover My Story
                 </a>
 
                 <a
-                    href="#contact"
-                    className="w-full rounded-lg border border-slate-600 px-6 py-3 text-center font-semibold transition hover:border-blue-400 sm:w-auto"
-                >
-                  Contact Me
-                </a>
-
-                <a
-                    href={resumeUrl}
+                    href={portfolio.profile.resumeUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="w-full rounded-lg border border-blue-500 px-6 py-3 text-center font-semibold text-blue-400 transition hover:bg-blue-500 hover:text-white sm:w-auto"
+                    className="rounded-xl border border-white/15 bg-white/5 px-6 py-3 text-center font-semibold transition hover:border-violet-400 hover:bg-white/10"
                 >
                   View Résumé
                 </a>
               </div>
             </div>
 
-            {/* Profile picture */}
-            <div className="flex justify-center">
-              <div className="h-64 w-64 overflow-hidden rounded-full border-4 border-blue-500 bg-slate-800 shadow-2xl shadow-blue-500/20 sm:h-80 sm:w-80">
-                <img
-                    src={profileImageUrl}
-                    alt={profileImageAlt}
-                    className="h-full w-full object-cover"
-                />
+            <div className="relative flex justify-center">
+              <div className="absolute h-72 w-72 rounded-full bg-gradient-to-r from-blue-500 via-violet-500 to-pink-500 opacity-40 blur-2xl sm:h-96 sm:w-96" />
+
+              <div className="relative h-64 w-64 rounded-[2rem] bg-gradient-to-br from-blue-500 via-violet-500 to-pink-500 p-1 sm:h-80 sm:w-80">
+                <div className="h-full w-full overflow-hidden rounded-[1.8rem] bg-[#11111d]">
+                  <img
+                      src={portfolio.profile.image}
+                      alt={`Professional portrait of ${portfolio.profile.name}`}
+                      className="h-full w-full object-cover"
+                  />
+                </div>
               </div>
             </div>
           </div>
         </section>
 
         {/* About */}
-        <section
-            id="about"
-            className="flex min-h-screen items-center bg-slate-900 px-4 py-24 sm:px-6"
-        >
-          <div className="mx-auto w-full max-w-5xl">
-            <p className="mb-3 font-semibold uppercase tracking-widest text-blue-400">
-              About Me
-            </p>
+        <section id="about" className="scroll-mt-20 bg-[#0d0d19] px-4 py-24 sm:px-6">
+          <div className="mx-auto max-w-6xl">
+            <p className="section-label">About Me</p>
 
-            <h2 className="mb-10 text-3xl font-bold sm:text-4xl">
-              Quality, innovation, and meaningful impact
+            <h2 className="section-heading">
+              {portfolio.about.heading}
             </h2>
 
-            <div className="grid gap-8 text-base leading-relaxed text-slate-300 sm:text-lg md:grid-cols-2">
-              <div className="rounded-2xl border border-slate-800 bg-slate-950/50 p-6">
-                <h3 className="mb-4 text-xl font-bold text-white">
+            <div className="grid gap-6 md:grid-cols-2">
+              <article className="glass-card">
+                <div className="mb-5 h-1 w-16 rounded-full bg-gradient-to-r from-blue-500 to-violet-500" />
+                <h3 className="mb-4 text-xl font-bold">
                   Professional Journey
                 </h3>
-
-                <p className="whitespace-pre-line">
-                  {profile?.about ??
-                      "My complete professional introduction will be available soon."}
+                <p className="leading-relaxed text-slate-300">
+                  {portfolio.about.professional}
                 </p>
-              </div>
+              </article>
 
-              <div className="rounded-2xl border border-slate-800 bg-slate-950/50 p-6">
-                <h3 className="mb-4 text-xl font-bold text-white">
+              <article className="glass-card">
+                <div className="mb-5 h-1 w-16 rounded-full bg-gradient-to-r from-violet-500 to-pink-500" />
+                <h3 className="mb-4 text-xl font-bold">
                   Technology & Ministry
                 </h3>
-
-                <p className="whitespace-pre-line">
-                  {profile?.ministryStatement ??
-                      "I believe technology can be used to serve people and support meaningful ministry."}
+                <p className="leading-relaxed text-slate-300">
+                  {portfolio.about.ministry}
                 </p>
-              </div>
+              </article>
+            </div>
+          </div>
+        </section>
+
+        <LogoMarquee />
+
+        {/* Recommendations */}
+        <section
+            id="recommendations"
+            className="scroll-mt-20 bg-[#0d0d19] px-4 py-24 sm:px-6"
+        >
+          <div className="mx-auto max-w-6xl">
+            <p className="section-label">Recommendations</p>
+            <h2 className="section-heading">
+              What people say about working with me
+            </h2>
+
+            <div className="grid gap-6 lg:grid-cols-3">
+              {portfolio.recommendations.map((recommendation) => (
+                  <article
+                      key={recommendation.name}
+                      className="glass-card flex flex-col"
+                  >
+                    <p className="mb-8 flex-1 leading-relaxed text-slate-300">
+                      “{recommendation.recommendation}”
+                    </p>
+
+                    <div className="flex items-center gap-4">
+                      {recommendation.photo ? (
+                          <img
+                              src={recommendation.photo}
+                              alt={recommendation.name}
+                              className="h-12 w-12 rounded-full object-cover"
+                          />
+                      ) : (
+                          <div className="flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-r from-blue-500 via-violet-500 to-pink-500 font-bold">
+                            {initials(recommendation.name)}
+                          </div>
+                      )}
+
+                      <div>
+                        <p className="font-bold">{recommendation.name}</p>
+                        <p className="text-sm text-slate-400">
+                          {recommendation.position}, {recommendation.company}
+                        </p>
+                        <p className="text-xs text-violet-400">
+                          {recommendation.relationship}
+                        </p>
+                      </div>
+                    </div>
+                  </article>
+              ))}
+            </div>
+
+            <div className="mt-12 rounded-3xl border border-violet-500/20 bg-gradient-to-r from-blue-500/10 via-violet-500/10 to-pink-500/10 p-8 text-center">
+              <h3 className="mb-3 text-2xl font-bold">
+                {portfolio.recommendationRequest.heading}
+              </h3>
+
+              <p className="mx-auto mb-6 max-w-2xl text-slate-300">
+                {portfolio.recommendationRequest.description}
+              </p>
+
+              <a
+                  href={portfolio.recommendationRequest.formUrl || "#contact"}
+                  target={
+                    portfolio.recommendationRequest.formUrl ? "_blank" : undefined
+                  }
+                  rel={
+                    portfolio.recommendationRequest.formUrl
+                        ? "noopener noreferrer"
+                        : undefined
+                  }
+                  className="inline-block rounded-xl bg-gradient-to-r from-blue-500 via-violet-500 to-pink-500 px-6 py-3 font-semibold transition hover:scale-105"
+              >
+                Give a Recommendation
+              </a>
+            </div>
+          </div>
+        </section>
+
+        {/* Commitments */}
+        <section
+            id="commitments"
+            className="scroll-mt-20 px-4 py-24 sm:px-6"
+        >
+          <div className="mx-auto max-w-6xl">
+            <p className="section-label">Beyond Work</p>
+            <h2 className="section-heading">
+              Volunteer Work & Commitments
+            </h2>
+
+            <div className="grid gap-6 md:grid-cols-3">
+              {portfolio.commitments.map((commitment) => (
+                  <article
+                      key={commitment.title}
+                      className="group overflow-hidden rounded-3xl border border-white/10 bg-white/5"
+                  >
+                    <div className="flex h-48 items-center justify-center overflow-hidden bg-gradient-to-br from-blue-500/20 via-violet-500/20 to-pink-500/20">
+                      {commitment.image ? (
+                          <img
+                              src={commitment.image}
+                              alt={commitment.title}
+                              className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
+                          />
+                      ) : (
+                          <span className="px-6 text-center text-lg font-bold text-slate-300">
+                      {commitment.category}
+                    </span>
+                      )}
+                    </div>
+
+                    <div className="p-6">
+                      <div className="mb-3 flex items-center justify-between gap-3 text-sm">
+                    <span className="text-violet-400">
+                      {commitment.category}
+                    </span>
+                        <span className="text-slate-500">
+                      {commitment.date}
+                    </span>
+                      </div>
+
+                      <h3 className="mb-3 text-xl font-bold">
+                        {commitment.title}
+                      </h3>
+
+                      <p className="leading-relaxed text-slate-300">
+                        {commitment.description}
+                      </p>
+                    </div>
+                  </article>
+              ))}
             </div>
           </div>
         </section>
@@ -157,67 +257,45 @@ export default async function Home() {
         {/* Contact */}
         <section
             id="contact"
-            className="flex min-h-screen items-center px-4 py-24 sm:px-6"
+            className="scroll-mt-20 bg-[#0d0d19] px-4 py-24 sm:px-6"
         >
-          <div className="mx-auto max-w-3xl text-center">
-            <p className="mb-3 font-semibold uppercase tracking-widest text-blue-400">
-              Contact
-            </p>
-
-            <h2 className="mb-6 text-3xl font-bold sm:text-4xl">
-              Let&apos;s build something meaningful
+          <div className="mx-auto max-w-4xl text-center">
+            <p className="section-label">Contact</p>
+            <h2 className="section-heading">
+              {portfolio.contact.heading}
             </h2>
 
-            <p className="mb-3 text-base leading-relaxed text-slate-300 sm:text-lg">
-              {profile?.availability ??
-                  "I’m open to opportunities involving Quality Assurance, Agile, AI automation, and technology-driven ministry."}
+            <p className="mx-auto mb-10 max-w-2xl text-lg leading-relaxed text-slate-300">
+              {portfolio.contact.description}
             </p>
 
-            {profile?.location && (
-                <p className="mb-8 text-slate-400">
-                  Based in {profile.location}
-                </p>
-            )}
-
-            <div className="flex flex-col justify-center gap-3 sm:flex-row sm:flex-wrap">
-              {profile?.email && (
+            <div className="flex flex-wrap justify-center gap-3">
+              {visibleSocials.map((social) => (
                   <a
-                      href={`mailto:${profile.email}`}
-                      className="rounded-lg bg-blue-600 px-6 py-3 font-semibold transition hover:bg-blue-500"
+                      key={social.name}
+                      href={social.url}
+                      target={
+                        social.url.startsWith("http") ? "_blank" : undefined
+                      }
+                      rel={
+                        social.url.startsWith("http")
+                            ? "noopener noreferrer"
+                            : undefined
+                      }
+                      className="rounded-full border border-white/10 bg-white/5 px-5 py-3 font-semibold transition hover:-translate-y-1 hover:border-violet-400 hover:text-violet-300"
                   >
-                    Email Me
+                    {social.name}
                   </a>
-              )}
-
-              {profile?.linkedInUrl && (
-                  <a
-                      href={profile.linkedInUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="rounded-lg border border-slate-600 px-6 py-3 font-semibold transition hover:border-blue-400 hover:text-blue-400"
-                  >
-                    LinkedIn
-                  </a>
-              )}
-
-              {profile?.githubUrl && (
-                  <a
-                      href={profile.githubUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="rounded-lg border border-slate-600 px-6 py-3 font-semibold transition hover:border-blue-400 hover:text-blue-400"
-                  >
-                    GitHub
-                  </a>
-              )}
+              ))}
             </div>
           </div>
         </section>
 
-        {/* Footer */}
-        <footer className="border-t border-slate-800 px-6 py-8 text-center text-sm text-slate-500">
-          © {new Date().getFullYear()}{" "}
-          {profile?.fullName ?? "Dhods Soledad"}. All rights reserved.
+        <BackToTop />
+
+        <footer className="border-t border-white/10 px-6 py-8 text-center text-sm text-slate-500">
+          © {new Date().getFullYear()} {portfolio.profile.name}. All rights
+          reserved.
         </footer>
       </main>
   );

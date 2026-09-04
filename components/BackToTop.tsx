@@ -1,34 +1,117 @@
 "use client";
 
-import { ArrowUp } from "lucide-react";
 import { useEffect, useState } from "react";
 
 export default function BackToTop() {
-    const [visible, setVisible] = useState(false);
+    const [showBackToTop, setShowBackToTop] = useState(false);
 
     useEffect(() => {
         function handleScroll() {
-            setVisible(window.scrollY > 600);
+            /*
+             * Show the down indicator near the top.
+             * Switch to the up button after scrolling 400px.
+             */
+            setShowBackToTop(window.scrollY > 400);
         }
 
         handleScroll();
-        window.addEventListener("scroll", handleScroll);
 
-        return () => window.removeEventListener("scroll", handleScroll);
+        window.addEventListener("scroll", handleScroll, {
+            passive: true,
+        });
+
+        return () => {
+            window.removeEventListener("scroll", handleScroll);
+        };
     }, []);
 
+    function scrollToTop() {
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth",
+        });
+    }
+
+    function scrollDown() {
+        const aboutSection = document.getElementById("about");
+
+        if (aboutSection) {
+            aboutSection.scrollIntoView({
+                behavior: "smooth",
+                block: "start",
+            });
+            return;
+        }
+
+        window.scrollBy({
+            top: window.innerHeight * 0.85,
+            behavior: "smooth",
+        });
+    }
+
     return (
-        <button
-            type="button"
-            onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-            aria-label="Return to the top"
-            className={`fixed bottom-6 right-6 z-50 flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-r from-blue-500 via-violet-500 to-pink-500 text-white shadow-lg shadow-violet-500/30 transition duration-300 hover:-translate-y-1 ${
-                visible
-                    ? "pointer-events-auto translate-y-0 opacity-100"
-                    : "pointer-events-none translate-y-4 opacity-0"
-            }`}
-        >
-            <ArrowUp size={20} />
-        </button>
+        <div className="fixed bottom-6 right-4 z-50 sm:bottom-8 sm:right-8">
+            {showBackToTop ? (
+                /*
+                 * Appears after the visitor scrolls down.
+                 */
+                <button
+                    type="button"
+                    onClick={scrollToTop}
+                    aria-label="Back to top"
+                    title="Back to top"
+                    className="floating-scroll-control floating-scroll-enter group"
+                >
+                    <svg
+                        viewBox="0 0 24 24"
+                        aria-hidden="true"
+                        className="h-5 w-5"
+                    >
+                        <path
+                            d="M6 14l6-6 6 6"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                        />
+                    </svg>
+
+                    <span className="sr-only">Back to top</span>
+                </button>
+            ) : (
+                /*
+                 * Visible while the visitor is at the top.
+                 */
+                <button
+                    type="button"
+                    onClick={scrollDown}
+                    aria-label="Scroll down to learn more"
+                    title="Scroll down"
+                    className="floating-scroll-control floating-scroll-enter group"
+                >
+                    <svg
+                        viewBox="0 0 24 24"
+                        aria-hidden="true"
+                        className="floating-down-arrow h-5 w-5"
+                    >
+                        <path
+                            d="M6 10l6 6 6-6"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                        />
+                    </svg>
+
+                    <span className="floating-scroll-ring absolute inset-1 rounded-full" />
+
+                    <span className="sr-only">
+            Scroll down to learn more
+          </span>
+                </button>
+            )}
+        </div>
     );
 }

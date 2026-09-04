@@ -4,11 +4,25 @@ export const portfolio = {
         title: "Quality Assurance Lead",
         headline: "Quality Assurance • Agile • AI",
         introduction:
-            "I create better digital experiences through quality engineering, Agile delivery, AI-powered automation, and meaningful collaboration.",
+            "The QUALITY of our WORKFLOW directly influences the QUALITY of our DELIVERABLES",
         location: "Taguig City, Philippines",
         image: "/profile.png",
         resumeUrl: "/Dhods-Soledad-Resume.pdf",
     },
+    impactMetrics: [
+        {
+            value: "10+",
+            label: "Products Delivered",
+        },
+        {
+            value: "4+",
+            label: "Countries Supported",
+        },
+        {
+            value: "QA → Prod",
+            label: "End-to-End Quality",
+        },
+    ],
 
     about: {
         heading: "Quality, innovation, and meaningful impact",

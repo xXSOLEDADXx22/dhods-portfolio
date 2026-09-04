@@ -127,7 +127,7 @@ export default function LogoMarquee() {
                 </p>
 
                 <h2 className="section-heading">
-                    {/*Brands where I&apos;ve made an impact*/}
+                    Where I&apos;ve made an impact
                 </h2>
 
                 <p className="mx-auto max-w-2xl text-sm text-slate-400">

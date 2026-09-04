@@ -1,18 +1,11 @@
 /* eslint-disable @next/next/no-img-element */
 
 import BackToTop from "@/components/BackToTop";
+import EndorsementFormModal from "@/components/EndorsementFormModal";
+import RecommendationCarousel from "@/components/RecommendationCarousel";
 import LogoMarquee from "@/components/LogoMarquee";
 import SiteNavigation from "@/components/SiteNavigation";
 import { portfolio } from "@/data/portfolio";
-
-function initials(name: string) {
-  return name
-      .split(" ")
-      .map((part) => part[0])
-      .join("")
-      .slice(0, 2)
-      .toUpperCase();
-}
 
 export default function Home() {
   const visibleSocials = portfolio.socialLinks.filter(
@@ -126,76 +119,33 @@ export default function Home() {
 
         {/* Recommendations */}
         <section
-            id="recommendations"
-            className="scroll-mt-20 bg-[#0d0d19] px-4 py-24 sm:px-6"
+            id="endorsements"
+            className="scroll-mt-20 overflow-hidden bg-[#0d0d19] py-24"
         >
-          <div className="mx-auto max-w-6xl">
-            <p className="section-label">Recommendations</p>
+          <div className="mx-auto mb-8 max-w-6xl px-4 text-center sm:px-6">
+            <p className="section-label">VOICES OF EXPERIENCE</p>
+
             <h2 className="section-heading">
-              What people say about working with me
+              What Professionals Say About Me
             </h2>
 
-            <div className="grid gap-6 lg:grid-cols-3">
-              {portfolio.recommendations.map((recommendation) => (
-                  <article
-                      key={recommendation.name}
-                      className="glass-card flex flex-col"
-                  >
-                    <p className="mb-8 flex-1 leading-relaxed text-slate-300">
-                      “{recommendation.recommendation}”
-                    </p>
+            <p className="mx-auto max-w-2xl text-slate-400">
+              {/*Select a profile to read their experience working with me.*/}
+            </p>
+          </div>
 
-                    <div className="flex items-center gap-4">
-                      {recommendation.photo ? (
-                          <img
-                              src={recommendation.photo}
-                              alt={recommendation.name}
-                              className="h-12 w-12 rounded-full object-cover"
-                          />
-                      ) : (
-                          <div className="flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-r from-blue-500 via-violet-500 to-pink-500 font-bold">
-                            {initials(recommendation.name)}
-                          </div>
-                      )}
+          <RecommendationCarousel
+              recommendations={portfolio.recommendations}
+          />
 
-                      <div>
-                        <p className="font-bold">{recommendation.name}</p>
-                        <p className="text-sm text-slate-400">
-                          {recommendation.position}, {recommendation.company}
-                        </p>
-                        <p className="text-xs text-violet-400">
-                          {recommendation.relationship}
-                        </p>
-                      </div>
-                    </div>
-                  </article>
-              ))}
-            </div>
+          <div className="mt-10 px-4 text-center">
+            <p className="mb-4 text-sm text-slate-400">
+              {portfolio.recommendationRequest.description}
+            </p>
 
-            <div className="mt-12 rounded-3xl border border-violet-500/20 bg-gradient-to-r from-blue-500/10 via-violet-500/10 to-pink-500/10 p-8 text-center">
-              <h3 className="mb-3 text-2xl font-bold">
-                {portfolio.recommendationRequest.heading}
-              </h3>
-
-              <p className="mx-auto mb-6 max-w-2xl text-slate-300">
-                {portfolio.recommendationRequest.description}
-              </p>
-
-              <a
-                  href={portfolio.recommendationRequest.formUrl || "#contact"}
-                  target={
-                    portfolio.recommendationRequest.formUrl ? "_blank" : undefined
-                  }
-                  rel={
-                    portfolio.recommendationRequest.formUrl
-                        ? "noopener noreferrer"
-                        : undefined
-                  }
-                  className="inline-block rounded-xl bg-gradient-to-r from-blue-500 via-violet-500 to-pink-500 px-6 py-3 font-semibold transition hover:scale-105"
-              >
-                Give a Recommendation
-              </a>
-            </div>
+            <EndorsementFormModal
+                formUrl={portfolio.recommendationRequest.formUrl}
+            />
           </div>
         </section>
 

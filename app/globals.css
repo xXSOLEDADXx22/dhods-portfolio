@@ -1,26 +1,586 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+/* =========================================================
+   Base styles
+========================================================= */
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  /*
+    The fixed navigation is 80px high.
+    This keeps anchored sections below it.
+  */
+  scroll-behavior: smooth;
+  scroll-padding-top: 5rem;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  margin: 0;
+  min-height: 100%;
+  overflow-x: hidden;
+  background: #060610;
+  color: #f8fafc;
+}
+
+/*
+  Prevent scroll-mt Tailwind classes from adding
+  another 80px offset to anchored sections.
+*/
+section[id] {
+  scroll-margin-top: 0 !important;
+}
+
+/*
+  Each major section fills the available screen below
+  the fixed navigation but can grow if content is taller.
+*/
+#about,
+#endorsements,
+#commitments,
+#contact {
+  min-height: calc(100dvh - 5rem);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+::selection {
+  background: rgba(139, 92, 246, 0.5);
+  color: #ffffff;
+}
+
+/* =========================================================
+   Shared section styles
+========================================================= */
+
+.section-label {
+  margin-bottom: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #60a5fa;
+}
+
+.section-heading {
+  margin-bottom: 2.5rem;
+  font-size: clamp(2rem, 5vw, 3rem);
+  line-height: 1.15;
+  font-weight: 800;
+  color: #f8fafc;
+}
+
+/* =========================================================
+   Glassmorphism cards
+========================================================= */
+
+.glass-card {
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 1.5rem;
+  padding: 1.5rem;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  transition:
+          transform 250ms ease,
+          border-color 250ms ease,
+          background-color 250ms ease;
+}
+
+.glass-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(139, 92, 246, 0.7);
+  background: rgba(255, 255, 255, 0.07);
+}
+
+/* =========================================================
+   Hero entrance animation
+========================================================= */
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-up {
+  animation: fade-up 700ms ease both;
+}
+
+/* =========================================================
+   View Résumé heartbeat
+========================================================= */
+
+@keyframes resume-heartbeat {
+  0%,
+  35%,
+  100% {
+    transform: scale(1);
+    border-color: rgba(255, 255, 255, 0.15);
+    box-shadow: 0 0 0 rgba(139, 92, 246, 0);
+  }
+
+  6% {
+    transform: scale(1.06);
+    border-color: rgba(96, 165, 250, 0.8);
+    box-shadow:
+            0 0 18px rgba(59, 130, 246, 0.3),
+            0 0 35px rgba(139, 92, 246, 0.12);
+  }
+
+  12% {
+    transform: scale(1);
+    border-color: rgba(139, 92, 246, 0.5);
+    box-shadow: 0 0 8px rgba(139, 92, 246, 0.15);
+  }
+
+  18% {
+    transform: scale(1.04);
+    border-color: rgba(236, 72, 153, 0.8);
+    box-shadow:
+            0 0 20px rgba(236, 72, 153, 0.3),
+            0 0 38px rgba(139, 92, 246, 0.12);
+  }
+
+  24% {
+    transform: scale(1);
+    border-color: rgba(255, 255, 255, 0.15);
+    box-shadow: 0 0 0 rgba(139, 92, 246, 0);
+  }
+}
+
+.resume-heartbeat {
+  animation: resume-heartbeat 3s ease-in-out infinite;
+  transform-origin: center;
+  will-change: transform, box-shadow;
+}
+
+.resume-heartbeat:hover,
+.resume-heartbeat:focus-visible {
+  animation-play-state: paused;
+  border-color: rgba(139, 92, 246, 0.8);
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* =========================================================
+   Hidden carousel scrollbars
+========================================================= */
+
+.hide-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  overscroll-behavior-x: contain;
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+  width: 0;
+  height: 0;
+}
+
+/* Prevent carousel images from being dragged */
+.hide-scrollbar img {
+  -webkit-user-drag: none;
+  user-select: none;
+}
+
+/* =========================================================
+   One-by-one text shimmer
+
+   QUALITY → WORKFLOW → QUALITY → DELIVERABLES
+========================================================= */
+
+@keyframes text-shimmer {
+  0% {
+    background-position: 100% center;
+    filter: drop-shadow(
+            0 0 4px rgba(139, 92, 246, 0.15)
+    );
+  }
+
+  18% {
+    background-position: 0% center;
+    filter: drop-shadow(
+            0 0 10px rgba(236, 72, 153, 0.35)
+    );
+  }
+
+  22%,
+  100% {
+    background-position: 0% center;
+    filter: drop-shadow(
+            0 0 4px rgba(139, 92, 246, 0.15)
+    );
+  }
+}
+
+.shimmer-text {
+  display: inline;
+  color: #a78bfa;
+
+  background-image: linear-gradient(
+          110deg,
+          #60a5fa 0%,
+          #818cf8 18%,
+          #a78bfa 32%,
+          #ec4899 43%,
+          #ffffff 50%,
+          #ec4899 57%,
+          #a78bfa 68%,
+          #818cf8 82%,
+          #60a5fa 100%
+  );
+
+  background-size: 220% 100%;
+  background-position: 100% center;
+  background-repeat: repeat-x;
+
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+
+  animation-name: text-shimmer;
+  animation-duration: 8s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  animation-fill-mode: both;
+
+  will-change: background-position, filter;
+}
+
+.shimmer-1 {
+  animation-delay: 0s;
+}
+
+.shimmer-2 {
+  animation-delay: 2s;
+}
+
+.shimmer-3 {
+  animation-delay: 4s;
+}
+
+.shimmer-4 {
+  animation-delay: 6s;
+}
+
+/* =========================================================
+   Let's Connect pulse ring
+
+   The decorative outline animates without moving
+   or resizing the actual button.
+========================================================= */
+
+@keyframes connect-pulse {
+  0%,
+  100% {
+    opacity: 0;
+    transform: scale(0.96);
+    border-color: rgba(96, 165, 250, 0);
+    box-shadow: 0 0 0 rgba(139, 92, 246, 0);
+  }
+
+  12% {
+    opacity: 0.9;
+    transform: scale(1);
+    border-color: rgba(96, 165, 250, 0.85);
+    box-shadow:
+            0 0 8px rgba(59, 130, 246, 0.35),
+            0 0 16px rgba(139, 92, 246, 0.2);
+  }
+
+  45% {
+    opacity: 0.45;
+    transform: scale(1.07);
+    border-color: rgba(167, 139, 250, 0.5);
+    box-shadow:
+            0 0 12px rgba(139, 92, 246, 0.25),
+            0 0 20px rgba(236, 72, 153, 0.15);
+  }
+
+  70% {
+    opacity: 0;
+    transform: scale(1.12);
+    border-color: rgba(236, 72, 153, 0);
+    box-shadow: 0 0 20px rgba(236, 72, 153, 0);
+  }
+}
+
+.connect-ring {
+  position: relative;
+  isolation: isolate;
+  transform: none;
+}
+
+.connect-ring::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: -3px;
+  pointer-events: none;
+  border: 2px solid transparent;
+  border-radius: inherit;
+  animation: connect-pulse 2.8s ease-out infinite;
+  will-change: transform, opacity, box-shadow;
+}
+
+/* Wait for the mobile drawer to finish opening */
+.mobile-menu-panel .connect-ring::after {
+  animation-delay: 700ms;
+}
+
+/* Pause on desktop interaction */
+@media (hover: hover) {
+  .connect-ring:hover::after {
+    animation-play-state: paused;
+    opacity: 0;
+  }
+}
+
+.connect-ring:focus-visible::after {
+  animation-play-state: paused;
+  opacity: 0;
+}
+
+/* =========================================================
+   Floating down / Back-to-Top control
+========================================================= */
+
+.floating-scroll-control {
+  position: relative;
+  display: flex;
+  width: 3rem;
+  height: 3rem;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border: 1px solid rgba(167, 139, 250, 0.4);
+  border-radius: 9999px;
+  color: #c4b5fd;
+
+  background:
+          linear-gradient(
+                  145deg,
+                  rgba(59, 130, 246, 0.15),
+                  rgba(139, 92, 246, 0.14),
+                  rgba(236, 72, 153, 0.12)
+          ),
+          rgba(6, 6, 16, 0.85);
+
+  box-shadow:
+          0 8px 30px rgba(0, 0, 0, 0.35),
+          0 0 20px rgba(139, 92, 246, 0.15);
+
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+
+  cursor: pointer;
+
+  transition:
+          transform 250ms ease,
+          color 250ms ease,
+          border-color 250ms ease,
+          box-shadow 250ms ease;
+}
+
+.floating-scroll-control:hover,
+.floating-scroll-control:focus-visible {
+  color: #ffffff;
+  border-color: rgba(236, 72, 153, 0.75);
+
+  box-shadow:
+          0 10px 35px rgba(0, 0, 0, 0.4),
+          0 0 25px rgba(236, 72, 153, 0.25);
+
+  transform: translateY(-3px);
+}
+
+.floating-scroll-control:focus-visible {
+  outline: 2px solid #a78bfa;
+  outline-offset: 3px;
+}
+
+/* Floating-control entrance */
+@keyframes floating-scroll-enter {
+  from {
+    opacity: 0;
+    transform: scale(0.75);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.floating-scroll-enter {
+  animation: floating-scroll-enter 300ms ease-out both;
+}
+
+/* Down-arrow movement */
+@keyframes floating-down-arrow {
+  0%,
+  100% {
+    opacity: 0.45;
+    transform: translateY(-4px);
+  }
+
+  50% {
+    opacity: 1;
+    transform: translateY(5px);
+  }
+}
+
+.floating-down-arrow {
+  position: relative;
+  z-index: 2;
+  animation: floating-down-arrow 1.5s ease-in-out infinite;
+}
+
+/* Soft ring inside the floating down control */
+@keyframes floating-scroll-ring {
+  0% {
+    opacity: 0.55;
+    transform: scale(0.7);
+    border: 1px solid rgba(96, 165, 250, 0.7);
+  }
+
+  100% {
+    opacity: 0;
+    transform: scale(1.45);
+    border: 1px solid rgba(236, 72, 153, 0);
+  }
+}
+
+.floating-scroll-ring {
+  pointer-events: none;
+  animation: floating-scroll-ring 1.8s ease-out infinite;
+}
+
+/* =========================================================
+   Mobile glass navigation
+========================================================= */
+
+@keyframes mobile-backdrop-enter {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+.mobile-menu-backdrop {
+  animation: mobile-backdrop-enter 250ms ease-out both;
+}
+
+@keyframes mobile-panel-enter {
+  from {
+    opacity: 0;
+    transform: translateX(32px) scale(0.97);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+}
+
+.mobile-menu-panel {
+  isolation: isolate;
+  animation: mobile-panel-enter 350ms
+  cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes mobile-item-enter {
+  from {
+    opacity: 0;
+    transform: translateX(16px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.mobile-menu-item {
+  opacity: 0;
+  animation: mobile-item-enter 350ms
+  cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+/* =========================================================
+   Short laptop and desktop screens
+========================================================= */
+
+@media (min-width: 768px) and (max-height: 850px) {
+  #about,
+  #endorsements,
+  #commitments,
+  #contact {
+    padding-top: 2.5rem;
+    padding-bottom: 2.5rem;
+  }
+
+  .section-label {
+    margin-bottom: 0.5rem;
+  }
+
+  .section-heading {
+    margin-bottom: 1.75rem;
+    font-size: clamp(1.9rem, 4vw, 2.6rem);
+  }
+
+  /*
+    Reduce the space after the introduction inside
+    the Endorsements section.
+  */
+  #endorsements > div > div:first-child {
+    margin-bottom: 1rem;
+  }
+}
+
+/* =========================================================
+   Accessibility
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .animate-fade-up,
+  .resume-heartbeat,
+  .shimmer-text,
+  .floating-scroll-enter,
+  .floating-down-arrow,
+  .floating-scroll-ring,
+  .mobile-menu-backdrop,
+  .mobile-menu-panel,
+  .mobile-menu-item,
+  .connect-ring::after {
+    animation: none;
+    transform: none;
+  }
+
+  .mobile-menu-item {
+    opacity: 1;
+  }
+
+  .shimmer-text {
+    color: #a78bfa;
+    background-position: center;
+    -webkit-text-fill-color: transparent;
+  }
+
+  * {
+    scroll-behavior: auto !important;
+  }
 }

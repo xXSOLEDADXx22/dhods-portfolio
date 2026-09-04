@@ -1,224 +1,324 @@
 /* eslint-disable @next/next/no-img-element */
 
-import { client } from "@/sanity/lib/client";
-import { PROFILE_QUERY } from "@/sanity/lib/queries";
+import BackToTop from "@/components/BackToTop";
+import EndorsementFormModal from "@/components/EndorsementFormModal";
+import ImpactMetrics from "@/components/ImpactMetrics";
+import LogoMarquee from "@/components/LogoMarquee";
+import RecommendationCarousel from "@/components/RecommendationCarousel";
+import SiteNavigation from "@/components/SiteNavigation";
+import { portfolio } from "@/data/portfolio";
 
-export default async function Home() {
-  const profile = await client.fetch(
-      PROFILE_QUERY,
-      {},
-      {
-        cache: "no-store",
-      },
-  );
+export default function Home() {
+    const visibleSocials = portfolio.socialLinks.filter(
+        (social) => social.url.length > 0,
+    );
 
-  const profileImageUrl =
-      profile?.profileImage?.asset?.url ?? "/profile.png";
+    return (
+        <main className="min-h-screen overflow-x-hidden bg-[#060610] text-white">
+            <SiteNavigation />
 
-  const profileImageAlt =
-      profile?.profileImage?.alt ??
-      `Professional portrait of ${profile?.fullName ?? "Dhods Soledad"}`;
+            {/* Hero */}
+            <section
+                id="home"
+                className="relative flex min-h-screen items-center overflow-hidden px-4 pb-16 pt-28 sm:px-6 lg:py-28"
+            >
+                {/* Background gradient lights */}
+                <div className="pointer-events-none absolute left-[-8rem] top-24 h-72 w-72 rounded-full bg-blue-600/20 blur-3xl" />
 
-  const resumeUrl =
-      profile?.resume?.asset?.url ?? "/Dhods-Soledad-Resume.pdf";
+                <div className="pointer-events-none absolute right-[-8rem] top-1/3 h-80 w-80 rounded-full bg-violet-600/20 blur-3xl" />
 
-  return (
-      <main className="overflow-x-hidden bg-slate-950 text-white">
-        {/* Navigation */}
-        <nav className="fixed left-0 top-0 z-50 w-full border-b border-slate-800 bg-slate-950/90 backdrop-blur">
-          <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-4 sm:px-6">
-            <a href="#" className="text-lg font-bold text-white sm:text-xl">
-              Dhods<span className="text-blue-400">.</span>
-            </a>
+                <div className="pointer-events-none absolute bottom-0 left-1/2 h-64 w-64 rounded-full bg-pink-600/10 blur-3xl" />
 
-            <div className="flex items-center gap-3 text-xs font-medium text-slate-300 sm:gap-6 sm:text-sm">
-              <a className="transition hover:text-blue-400" href="#">
-                Home
-              </a>
+                <div className="relative mx-auto grid w-full max-w-6xl items-center gap-12 md:grid-cols-2">
+                    {/* Hero introduction */}
+                    <div className="animate-fade-up text-center md:text-left">
+                        {/* Personal QA principle */}
+                        <figure className="group relative mx-auto mb-8 max-w-2xl overflow-hidden rounded-3xl border border-white/10 bg-white/[0.05] p-6 text-left shadow-2xl shadow-violet-500/10 backdrop-blur-xl transition duration-500 hover:-translate-y-1 hover:border-violet-400/50 hover:bg-white/[0.07] sm:p-8 md:mx-0">
+                            {/* Background glow */}
+                            <div className="pointer-events-none absolute -right-16 -top-16 h-40 w-40 rounded-full bg-violet-500/20 blur-3xl transition duration-500 group-hover:bg-pink-500/20" />
 
-              <a className="transition hover:text-blue-400" href="#about">
-                About
-              </a>
+                            <div className="pointer-events-none absolute -bottom-16 -left-16 h-40 w-40 rounded-full bg-blue-500/20 blur-3xl" />
 
-              <a className="transition hover:text-blue-400" href="#contact">
-                Contact
-              </a>
-            </div>
-          </div>
-        </nav>
+                            {/* Gradient accent */}
+                            <div className="relative mb-6 h-1 w-20 rounded-full bg-gradient-to-r from-blue-500 via-violet-500 to-pink-500" />
 
-        {/* Hero */}
-        <section className="flex min-h-screen items-center px-4 pb-16 pt-28 sm:px-6">
-          <div className="mx-auto grid w-full max-w-6xl items-center gap-10 md:grid-cols-2 md:gap-12">
-            {/* Introduction */}
-            <div className="text-center md:text-left">
-              <p className="mb-4 text-sm font-semibold uppercase tracking-widest text-blue-400">
-                {profile?.headline ?? "Quality Assurance • Agile • AI"}
-              </p>
+                            {/* Quote */}
+                            <blockquote className="relative text-2xl font-black leading-snug text-white sm:text-3xl lg:text-4xl">
+                                The{" "}
+                                <span className="shimmer-text shimmer-1">
+                    QUALITY
+                  </span>{" "}
+                                of our{" "}
+                                <span className="shimmer-text shimmer-2">
+                    WORKFLOW
+                  </span>{" "}
+                                directly influences the{" "}
+                                <span className="shimmer-text shimmer-3">
+                    QUALITY
+                  </span>{" "}
+                                of our{" "}
+                                <span className="shimmer-text shimmer-4">
+                    DELIVERABLES
+                  </span>
+                                <span className="text-pink-400">.</span>
+                            </blockquote>
 
-              <h1 className="mb-4 text-4xl font-bold leading-tight sm:text-5xl">
-                Hi, I&apos;m {profile?.fullName ?? "Dhods Soledad"}
-              </h1>
+                            {/* Attribution and permanent-page link */}
+                            <figcaption className="relative mt-6 flex flex-wrap items-center gap-3 text-sm font-semibold text-slate-300 sm:text-base">
+                                <span className="h-px w-8 bg-gradient-to-r from-blue-400 to-pink-400" />
 
-              <p className="mb-3 text-lg font-semibold text-slate-200">
-                {profile?.professionalTitle ?? "Quality Assurance Lead"}
-              </p>
+                                <span>Dhods Soledad, 2026</span>
 
-              <p className="mb-4 text-base leading-relaxed text-slate-300 sm:text-lg">
-                {profile?.introduction ??
-                    "I’m passionate about building better digital experiences."}
-              </p>
+                                <span
+                                    aria-hidden="true"
+                                    className="text-slate-600"
+                                >
+                    •
+                  </span>
 
-              {profile?.location && (
-                  <p className="mb-8 text-sm text-slate-400">
-                    📍 {profile.location}
-                  </p>
-              )}
+                                <a
+                                    href="/insights/quality-of-workflow"
+                                    className="text-violet-400 transition hover:text-pink-400 focus:outline-none focus-visible:rounded focus-visible:ring-2 focus-visible:ring-violet-400"
+                                >
+                                    Read the principle →
+                                </a>
+                            </figcaption>
+                        </figure>
 
-              <div className="flex flex-col justify-center gap-3 sm:flex-row sm:flex-wrap sm:gap-4 md:justify-start">
-                <a
-                    href="#about"
-                    className="w-full rounded-lg bg-blue-600 px-6 py-3 text-center font-semibold transition hover:bg-blue-500 sm:w-auto"
-                >
-                  About Me
-                </a>
+                        {/* Compact animated impact metrics */}
+                        <ImpactMetrics metrics={portfolio.impactMetrics} />
+                    </div>
 
-                <a
-                    href="#contact"
-                    className="w-full rounded-lg border border-slate-600 px-6 py-3 text-center font-semibold transition hover:border-blue-400 sm:w-auto"
-                >
-                  Contact Me
-                </a>
+                    {/* Profile picture */}
+                    <div className="relative flex justify-center">
+                        {/* Soft glow behind the photo */}
+                        <div className="pointer-events-none absolute left-1/2 top-1/2 h-72 w-72 -translate-x-1/2 -translate-y-1/2 rounded-full bg-gradient-to-r from-blue-500/40 via-violet-500/40 to-pink-500/40 blur-3xl sm:h-96 sm:w-96" />
 
-                <a
-                    href={resumeUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="w-full rounded-lg border border-blue-500 px-6 py-3 text-center font-semibold text-blue-400 transition hover:bg-blue-500 hover:text-white sm:w-auto"
-                >
-                  View Résumé
-                </a>
-              </div>
-            </div>
+                        {/* Gradient profile-photo border */}
+                        <div className="group relative h-64 w-64 rounded-full bg-gradient-to-br from-blue-500 via-violet-500 to-pink-500 p-1 shadow-2xl shadow-violet-500/20 transition duration-500 hover:scale-[1.03] sm:h-80 sm:w-80">
+                            <div className="h-full w-full overflow-hidden rounded-full bg-[#11111d]">
+                                <img
+                                    src={portfolio.profile.image}
+                                    alt={`Professional portrait of ${portfolio.profile.name}`}
+                                    draggable={false}
+                                    className="h-full w-full rounded-full object-cover object-center transition duration-700 group-hover:scale-105"
+                                />
+                            </div>
 
-            {/* Profile picture */}
-            <div className="flex justify-center">
-              <div className="h-64 w-64 overflow-hidden rounded-full border-4 border-blue-500 bg-slate-800 shadow-2xl shadow-blue-500/20 sm:h-80 sm:w-80">
-                <img
-                    src={profileImageUrl}
-                    alt={profileImageAlt}
-                    className="h-full w-full object-cover"
-                />
-              </div>
-            </div>
-          </div>
-        </section>
+                            {/* Availability indicator */}
+                            <div
+                                className="absolute bottom-5 right-5 flex h-8 w-8 items-center justify-center rounded-full border-4 border-[#060610] bg-emerald-500 shadow-lg shadow-emerald-500/30 sm:bottom-7 sm:right-7"
+                                title="Available for opportunities"
+                            >
+                  <span className="sr-only">
+                    Available for opportunities
+                  </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
 
-        {/* About */}
-        <section
-            id="about"
-            className="flex min-h-screen items-center bg-slate-900 px-4 py-24 sm:px-6"
-        >
-          <div className="mx-auto w-full max-w-5xl">
-            <p className="mb-3 font-semibold uppercase tracking-widest text-blue-400">
-              About Me
-            </p>
+            {/* About */}
+            <section
+                id="about"
+                className="flex min-h-[calc(100dvh-5rem)] items-center bg-[#0d0d19] px-4 py-12 sm:px-6 sm:py-16"
+            >
+                <div className="mx-auto w-full max-w-6xl">
+                    <p className="section-label">About Me</p>
 
-            <h2 className="mb-10 text-3xl font-bold sm:text-4xl">
-              Quality, innovation, and meaningful impact
-            </h2>
+                    <h2 className="section-heading">
+                        {portfolio.about.heading}
+                    </h2>
 
-            <div className="grid gap-8 text-base leading-relaxed text-slate-300 sm:text-lg md:grid-cols-2">
-              <div className="rounded-2xl border border-slate-800 bg-slate-950/50 p-6">
-                <h3 className="mb-4 text-xl font-bold text-white">
-                  Professional Journey
-                </h3>
+                    <div className="grid gap-6 md:grid-cols-2">
+                        <article className="glass-card">
+                            <div className="mb-5 h-1 w-16 rounded-full bg-gradient-to-r from-blue-500 to-violet-500" />
 
-                <p className="whitespace-pre-line">
-                  {profile?.about ??
-                      "My complete professional introduction will be available soon."}
-                </p>
-              </div>
+                            <h3 className="mb-4 text-xl font-bold">
+                                Professional Journey
+                            </h3>
 
-              <div className="rounded-2xl border border-slate-800 bg-slate-950/50 p-6">
-                <h3 className="mb-4 text-xl font-bold text-white">
-                  Technology & Ministry
-                </h3>
+                            <p className="leading-relaxed text-slate-300">
+                                {portfolio.about.professional}
+                            </p>
+                        </article>
 
-                <p className="whitespace-pre-line">
-                  {profile?.ministryStatement ??
-                      "I believe technology can be used to serve people and support meaningful ministry."}
-                </p>
-              </div>
-            </div>
-          </div>
-        </section>
+                        <article className="glass-card">
+                            <div className="mb-5 h-1 w-16 rounded-full bg-gradient-to-r from-violet-500 to-pink-500" />
 
-        {/* Contact */}
-        <section
-            id="contact"
-            className="flex min-h-screen items-center px-4 py-24 sm:px-6"
-        >
-          <div className="mx-auto max-w-3xl text-center">
-            <p className="mb-3 font-semibold uppercase tracking-widest text-blue-400">
-              Contact
-            </p>
+                            <h3 className="mb-4 text-xl font-bold">
+                                Technology &amp; Ministry
+                            </h3>
 
-            <h2 className="mb-6 text-3xl font-bold sm:text-4xl">
-              Let&apos;s build something meaningful
-            </h2>
+                            <p className="leading-relaxed text-slate-300">
+                                {portfolio.about.ministry}
+                            </p>
+                        </article>
+                    </div>
+                </div>
+            </section>
 
-            <p className="mb-3 text-base leading-relaxed text-slate-300 sm:text-lg">
-              {profile?.availability ??
-                  "I’m open to opportunities involving Quality Assurance, Agile, AI automation, and technology-driven ministry."}
-            </p>
+            {/* Delivered companies */}
+            <LogoMarquee />
 
-            {profile?.location && (
-                <p className="mb-8 text-slate-400">
-                  Based in {profile.location}
-                </p>
-            )}
+            {/* Endorsements */}
+            <section
+                id="endorsements"
+                className="flex min-h-[calc(100dvh-5rem)] items-center overflow-x-clip bg-[#0d0d19] py-10 sm:py-12"
+            >
+                <div className="w-full">
+                    {/* Section introduction */}
+                    <div className="mx-auto mb-6 max-w-6xl px-4 text-center sm:px-6">
+                        <p className="section-label">
+                            Voices of Experience
+                        </p>
 
-            <div className="flex flex-col justify-center gap-3 sm:flex-row sm:flex-wrap">
-              {profile?.email && (
-                  <a
-                      href={`mailto:${profile.email}`}
-                      className="rounded-lg bg-blue-600 px-6 py-3 font-semibold transition hover:bg-blue-500"
-                  >
-                    Email Me
-                  </a>
-              )}
+                        <h2 className="mb-5 text-3xl font-extrabold leading-tight text-slate-50 sm:text-4xl lg:text-5xl">
+                            What Professionals Say About Me
+                        </h2>
 
-              {profile?.linkedInUrl && (
-                  <a
-                      href={profile.linkedInUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="rounded-lg border border-slate-600 px-6 py-3 font-semibold transition hover:border-blue-400 hover:text-blue-400"
-                  >
-                    LinkedIn
-                  </a>
-              )}
+                        <p className="mx-auto max-w-2xl text-sm text-slate-400 sm:text-base">
+                            Select a profile to read their experience working with me.
+                        </p>
+                    </div>
 
-              {profile?.githubUrl && (
-                  <a
-                      href={profile.githubUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="rounded-lg border border-slate-600 px-6 py-3 font-semibold transition hover:border-blue-400 hover:text-blue-400"
-                  >
-                    GitHub
-                  </a>
-              )}
-            </div>
-          </div>
-        </section>
+                    {/* Recommendation profiles */}
+                    <RecommendationCarousel
+                        recommendations={portfolio.recommendations}
+                    />
 
-        {/* Footer */}
-        <footer className="border-t border-slate-800 px-6 py-8 text-center text-sm text-slate-500">
-          © {new Date().getFullYear()}{" "}
-          {profile?.fullName ?? "Dhods Soledad"}. All rights reserved.
-        </footer>
-      </main>
-  );
+                    {/* Endorsement request */}
+                    <div className="mt-6 px-4 text-center sm:mt-8">
+                        <p className="mx-auto mb-4 max-w-2xl text-sm text-slate-400">
+                            {portfolio.recommendationRequest.description}
+                        </p>
+
+                        <EndorsementFormModal
+                            formUrl={portfolio.recommendationRequest.formUrl}
+                        />
+                    </div>
+                </div>
+            </section>
+
+            {/* Commitments */}
+            <section
+                id="commitments"
+                className="flex min-h-[calc(100dvh-5rem)] items-center px-4 py-12 sm:px-6 sm:py-16"
+            >
+                <div className="mx-auto w-full max-w-6xl">
+                    <p className="section-label">Beyond Work</p>
+
+                    <h2 className="section-heading">
+                        Volunteer Work &amp; Commitments
+                    </h2>
+
+                    <div className="grid gap-6 md:grid-cols-3">
+                        {portfolio.commitments.map((commitment) => (
+                            <article
+                                key={commitment.title}
+                                className="group overflow-hidden rounded-3xl border border-white/10 bg-white/5"
+                            >
+                                <div className="flex h-48 items-center justify-center overflow-hidden bg-gradient-to-br from-blue-500/20 via-violet-500/20 to-pink-500/20">
+                                    {commitment.image ? (
+                                        <img
+                                            src={commitment.image}
+                                            alt={commitment.title}
+                                            className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
+                                        />
+                                    ) : (
+                                        <span className="px-6 text-center text-lg font-bold text-slate-300">
+                            {commitment.category}
+                          </span>
+                                    )}
+                                </div>
+
+                                <div className="p-6">
+                                    <div className="mb-3 flex items-center justify-between gap-3 text-sm">
+                        <span className="text-violet-400">
+                          {commitment.category}
+                        </span>
+
+                                        <span className="text-slate-500">
+                          {commitment.date}
+                        </span>
+                                    </div>
+
+                                    <h3 className="mb-3 text-xl font-bold">
+                                        {commitment.title}
+                                    </h3>
+
+                                    <p className="leading-relaxed text-slate-300">
+                                        {commitment.description}
+                                    </p>
+                                </div>
+                            </article>
+                        ))}
+                    </div>
+                </div>
+            </section>
+
+            {/* Contact */}
+            <section
+                id="contact"
+                className="flex min-h-[calc(100dvh-5rem)] items-center bg-[#0d0d19] px-4 py-12 sm:px-6 sm:py-16"
+            >
+                <div className="mx-auto w-full max-w-4xl text-center">
+                    <p className="section-label">Contact</p>
+
+                    <h2 className="section-heading">
+                        {portfolio.contact.heading}
+                    </h2>
+
+                    <p className="mx-auto mb-10 max-w-2xl text-lg leading-relaxed text-slate-300">
+                        {portfolio.contact.description}
+                    </p>
+
+                    {/* Social links */}
+                    <div className="mb-10 flex flex-wrap justify-center gap-3">
+                        {visibleSocials.map((social) => (
+                            <a
+                                key={social.name}
+                                href={social.url}
+                                target={
+                                    social.url.startsWith("http")
+                                        ? "_blank"
+                                        : undefined
+                                }
+                                rel={
+                                    social.url.startsWith("http")
+                                        ? "noopener noreferrer"
+                                        : undefined
+                                }
+                                className="rounded-full border border-white/10 bg-white/5 px-5 py-3 font-semibold transition hover:-translate-y-1 hover:border-violet-400 hover:text-violet-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-400"
+                            >
+                                {social.name}
+                            </a>
+                        ))}
+                    </div>
+
+                    {/* Résumé action — final clickable item */}
+                    <div className="flex justify-center">
+                        <a
+                            href={portfolio.profile.resumeUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="resume-heartbeat rounded-xl border border-white/15 bg-white/5 px-6 py-3 text-center font-semibold text-white transition duration-300 hover:border-violet-400 hover:bg-white/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-400"
+                        >
+                            View Résumé
+                        </a>
+                    </div>
+                </div>
+            </section>
+
+            {/* Floating down/up control */}
+            <BackToTop />
+
+            {/* Footer */}
+            <footer className="border-t border-white/10 px-6 py-8 text-center text-sm text-slate-500">
+                © {new Date().getFullYear()}{" "}
+                {portfolio.profile.name}. All rights reserved.
+            </footer>
+        </main>
+    );
 }

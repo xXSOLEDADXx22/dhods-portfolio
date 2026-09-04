@@ -64,23 +64,26 @@ export default function Home() {
                             </blockquote>
 
                             {/* Attribution and permanent-page link */}
-                            <figcaption className="relative mt-6 flex flex-wrap items-center gap-3 text-sm font-semibold text-slate-300 sm:text-base">
-                                <span className="h-px w-8 bg-gradient-to-r from-blue-400 to-pink-400" />
+                            <figcaption className="relative mt-6 flex items-center justify-between gap-3">
+                                {/* Author */}
+                                <span className="flex min-w-0 items-center gap-3">
+    <span className="h-px w-6 shrink-0 bg-gradient-to-r from-blue-400 to-pink-400 sm:w-8" />
 
-                                <span>Dhods Soledad, 2026</span>
+    <span className="whitespace-nowrap text-xs font-semibold text-slate-300 sm:text-base">
+      Dhods Soledad, 2026
+    </span>
+  </span>
 
-                                <span
-                                    aria-hidden="true"
-                                    className="text-slate-600"
-                                >
-                    •
-                  </span>
-
+                                {/* Principle link */}
                                 <a
                                     href="/insights/quality-of-workflow"
-                                    className="text-violet-400 transition hover:text-pink-400 focus:outline-none focus-visible:rounded focus-visible:ring-2 focus-visible:ring-violet-400"
+                                    aria-label="Read the quality of workflow principle"
+                                    className="shrink-0 whitespace-nowrap rounded-full border border-violet-400/25 bg-violet-500/10 px-3 py-1.5 text-xs font-semibold text-violet-300 transition duration-300 hover:border-pink-400/60 hover:bg-pink-500/10 hover:text-pink-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-400 sm:px-4 sm:py-2 sm:text-sm"
                                 >
-                                    Read the principle →
+                                    <span className="sm:hidden">Read →</span>
+                                    <span className="hidden sm:inline">
+      Read the principle →
+    </span>
                                 </a>
                             </figcaption>
                         </figure>

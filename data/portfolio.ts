@@ -25,11 +25,13 @@ export const portfolio = {
     ],
 
     about: {
-        heading: "Quality, innovation, and meaningful impact",
+        heading: "Quality, Innovation, and Meaningful Impact",
         professional:
-            "I am a Quality Assurance Lead focused on building reliable products and improving the workflows behind them. I work with cross-functional teams to strengthen delivery quality, manage risks, and create better customer experiences.",
+            "I’m a Quality Assurance Lead with more than six years of experience across fintech, insurance, and semiconductor technology. I lead end-to-end testing, automation, release coordination, risk management, and process improvement—working with cross-functional and international teams to build reliable products and deliver customer experiences people can trust.\n" +
+            "\n" +
+            "My expertise spans manual, API, web, and mobile automation testing using tools such as Katalon, TOSCA, Postman, Swagger, and SQL. I also develop AI-driven initiatives that improve QA and team workflows. A BS Information Technology graduate of the Polytechnic University of the Philippines, I hold certifications in Six Sigma Black Belt, Google AI Leadership, PMI Agile Certified Practitioner, Scrum Foundation, Katalon, TOSCA Automation, and software-testing fundamentals.\n",
         ministry:
-            "Beyond technology and quality assurance, I am passionate about creative communication and digital ministry. I believe our professional skills can be used to serve people, strengthen communities, and support God’s mission.",
+            "Beyond technology and quality assurance, I’m passionate about creative communication and digital ministry. I believe our professional skills are more than tools for building careers—they are gifts we can use to serve others, strengthen communities, and advance God’s mission.\n",
     },
 
     products: [
@@ -241,28 +243,28 @@ Dhods deserves this recommendation. He is a solid addition to any team. Salamat 
 
     commitments: [
         {
-            title: "Church and Digital Ministry",
             category: "Ministry",
             date: "Present",
-            image: "",
+            title: "Church and Digital Ministry",
             description:
                 "Serving through technology, graphic design, social media, youth activities, and digital communication.",
+            image: "/commitments/ministry.png",
         },
         {
-            title: "Community Events",
             category: "Volunteer Work",
             date: "Ongoing",
-            image: "",
+            title: "Community Events",
             description:
                 "Participating in community initiatives that encourage service, collaboration, and meaningful human connection.",
+            image: "/commitments/volunteer-work.png",
         },
         {
-            title: "Environmental Activities",
             category: "Stewardship",
             date: "Ongoing",
-            image: "",
+            title: "Environmental Activities",
             description:
                 "Supporting tree-planting and environmental activities that promote responsible stewardship of God’s creation.",
+            image: "/commitments/stewardship.png",
         },
     ],
 

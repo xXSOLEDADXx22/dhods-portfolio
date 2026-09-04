@@ -11,7 +11,7 @@ export const portfolio = {
     },
     impactMetrics: [
         {
-            value: "10+",
+            value: "17+",
             label: "Products Delivered",
         },
         {

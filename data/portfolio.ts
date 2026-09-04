@@ -97,7 +97,7 @@ export const portfolio = {
         },
         {
             companyName: "a2z LocalBiz",
-            companyLogo: "/logos/a2z_Logo.png",
+            companyLogo: "/logos/a2z_logo.png",
             productName: "",
             publicUrl: "https://www.a2zlocalbiz.com",
         },

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { siteUrl } from "@/lib/site";
 
-const siteUrl = "https://dhods-portfolio.vercel.app";
 const pageUrl = `${siteUrl}/insights/quality-of-workflow`;
 
 /*

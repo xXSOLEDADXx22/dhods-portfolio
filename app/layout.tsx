@@ -13,7 +13,9 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-export const metadata: Metadata = {
+export const metadata: Metadata = { verification: {
+    google: "SjjeWnHEbhjAhF0M1SmDUIxGJSc3ZoAcvoB4Z2VnotA",
+  },
   title: "Dhods Soledad | QA",
   description:
       "Personal portfolio of Dhods Soledad, a Quality Assurance Lead specializing in Agile delivery, AI automation, process improvement, and digital ministry.",

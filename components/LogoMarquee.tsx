@@ -3,46 +3,78 @@
 /* eslint-disable @next/next/no-img-element */
 
 import { useEffect, useRef } from "react";
+import type { PointerEvent } from "react";
 import { portfolio } from "@/data/portfolio";
 
 export default function LogoMarquee() {
     const containerRef = useRef<HTMLDivElement>(null);
+    const trackRef = useRef<HTMLDivElement>(null);
     const animationRef = useRef<number | null>(null);
 
-    const pausedRef = useRef(false);
+    const hoveredRef = useRef(false);
     const draggingRef = useRef(false);
-
     const startingXRef = useRef(0);
     const startingScrollRef = useRef(0);
 
     useEffect(() => {
         const container = containerRef.current;
+        const track = trackRef.current;
 
-        if (!container) {
+        if (!container || !track) {
             return;
         }
 
+        const motionPreference = window.matchMedia(
+            "(prefers-reduced-motion: reduce)",
+        );
+
         let previousTime = performance.now();
+        let scrollPosition = container.scrollLeft;
 
         function animate(currentTime: number) {
-            if (!container) {
+            if (!container || !track) {
                 return;
             }
 
-            const elapsedTime = currentTime - previousTime;
+            const elapsedTime = Math.min(currentTime - previousTime, 50);
             previousTime = currentTime;
 
-            if (!pausedRef.current && !draggingRef.current) {
-                // Change to adjust automatic speed
+            if (
+                !hoveredRef.current &&
+                !draggingRef.current &&
+                !motionPreference.matches
+            ) {
                 const speed = 50;
 
-                container.scrollLeft += (speed * elapsedTime) / 1000;
+                // Distance between the first logo and its repeated copy.
+                const firstLogo = track.children[0] as HTMLElement | undefined;
+                const repeatedLogo = track.children[
+                    portfolio.products.length
+                    ] as HTMLElement | undefined;
 
-                const halfwayPoint = container.scrollWidth / 2;
+                const loopWidth =
+                    firstLogo && repeatedLogo
+                        ? repeatedLogo.offsetLeft - firstLogo.offsetLeft
+                        : 0;
 
-                if (container.scrollLeft >= halfwayPoint) {
-                    container.scrollLeft -= halfwayPoint;
+                const maximumScroll =
+                    container.scrollWidth - container.clientWidth;
+
+                scrollPosition += (speed * elapsedTime) / 1000;
+
+                if (
+                    loopWidth > 0 &&
+                    maximumScroll >= loopWidth &&
+                    scrollPosition >= loopWidth
+                ) {
+                    scrollPosition -= loopWidth;
+                } else if (scrollPosition >= maximumScroll) {
+                    scrollPosition = 0;
                 }
+
+                container.scrollLeft = scrollPosition;
+            } else {
+                scrollPosition = container.scrollLeft;
             }
 
             animationRef.current = requestAnimationFrame(animate);
@@ -57,27 +89,21 @@ export default function LogoMarquee() {
         };
     }, []);
 
-    function handlePointerDown(
-        event: React.PointerEvent<HTMLDivElement>,
-    ) {
+    function handlePointerDown(event: PointerEvent<HTMLDivElement>) {
         const container = containerRef.current;
 
-        if (!container) {
+        if (!container || !event.isPrimary || event.button !== 0) {
             return;
         }
 
         draggingRef.current = true;
-        pausedRef.current = true;
-
         startingXRef.current = event.clientX;
         startingScrollRef.current = container.scrollLeft;
 
         container.setPointerCapture(event.pointerId);
     }
 
-    function handlePointerMove(
-        event: React.PointerEvent<HTMLDivElement>,
-    ) {
+    function handlePointerMove(event: PointerEvent<HTMLDivElement>) {
         const container = containerRef.current;
 
         if (!container || !draggingRef.current) {
@@ -86,13 +112,10 @@ export default function LogoMarquee() {
 
         const distanceMoved = event.clientX - startingXRef.current;
 
-        container.scrollLeft =
-            startingScrollRef.current - distanceMoved;
+        container.scrollLeft = startingScrollRef.current - distanceMoved;
     }
 
-    function handlePointerUp(
-        event: React.PointerEvent<HTMLDivElement>,
-    ) {
+    function handlePointerUp(event: PointerEvent<HTMLDivElement>) {
         const container = containerRef.current;
 
         draggingRef.current = false;
@@ -102,45 +125,27 @@ export default function LogoMarquee() {
         }
     }
 
-    function handleMouseEnter() {
-        pausedRef.current = true;
-    }
-
-    function handleMouseLeave() {
-        pausedRef.current = false;
-        draggingRef.current = false;
-    }
-
-    function handleTouchEnd() {
-        draggingRef.current = false;
-        pausedRef.current = false;
-    }
-
     return (
         <section
             id="delivered"
-            className="scroll-mt-20 overflow-hidden px-4 py-24 sm:px-6"
+            className="scroll-mt-20 overflow-hidden bg-[#060610] px-4 py-10 sm:px-6 sm:py-12"
         >
-            <div className="mx-auto mb-12 max-w-6xl text-center">
+            {/* Compact section heading */}
+            <div className="mx-auto mb-5 max-w-6xl text-center sm:mb-6">
                 <p className="section-label">
-                    Brands I&apos;ve Delivered quality
+                    Brands I&apos;ve Delivered Quality
                 </p>
 
-                <h2 className="section-heading">
+                <h2 className="text-3xl font-extrabold leading-tight text-slate-50 sm:text-4xl lg:text-5xl">
                     Where I&apos;ve made an impact
                 </h2>
-
-                <p className="mx-auto max-w-2xl text-sm text-slate-400">
-
-                </p>
             </div>
 
             <div className="relative">
-                {/* Left fade */}
-                <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-10 bg-gradient-to-r from-[#060610] to-transparent sm:w-24" />
+                {/* Edge fades */}
+                <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-6 bg-gradient-to-r from-[#060610] to-transparent sm:w-16" />
 
-                {/* Right fade */}
-                <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-10 bg-gradient-to-l from-[#060610] to-transparent sm:w-24" />
+                <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-6 bg-gradient-to-l from-[#060610] to-transparent sm:w-16" />
 
                 <div
                     ref={containerRef}
@@ -148,20 +153,37 @@ export default function LogoMarquee() {
                     onPointerMove={handlePointerMove}
                     onPointerUp={handlePointerUp}
                     onPointerCancel={handlePointerUp}
-                    onMouseEnter={handleMouseEnter}
-                    onMouseLeave={handleMouseLeave}
-                    onTouchEnd={handleTouchEnd}
-                    className="hide-scrollbar cursor-grab select-none overflow-x-scroll active:cursor-grabbing"
-                    style={{
-                        touchAction: "pan-y",
+                    onLostPointerCapture={() => {
+                        draggingRef.current = false;
                     }}
+                    onPointerEnter={(event) => {
+                        if (event.pointerType === "mouse") {
+                            hoveredRef.current = true;
+                        }
+                    }}
+                    onPointerLeave={(event) => {
+                        if (event.pointerType === "mouse") {
+                            hoveredRef.current = false;
+                        }
+                    }}
+                    className="hide-scrollbar cursor-grab select-none overflow-x-auto active:cursor-grabbing"
+                    style={{ touchAction: "pan-y" }}
+                    role="region"
+                    aria-label="Brands and products"
                 >
-                    <div className="flex w-max items-center gap-12 py-5 sm:gap-20">
+                    {/* Smaller gaps and logo containers */}
+                    <div
+                        ref={trackRef}
+                        className="relative flex w-max items-center gap-4 py-3 sm:gap-6"
+                    >
                         {[...portfolio.products, ...portfolio.products].map(
                             (product, index) => (
                                 <div
                                     key={`${product.companyName}-${index}`}
-                                    className="flex h-28 w-52 shrink-0 items-center justify-center sm:h-36 sm:w-72"
+                                    aria-hidden={
+                                        index >= portfolio.products.length ? true : undefined
+                                    }
+                                    className="flex h-24 w-40 shrink-0 items-center justify-center sm:h-28 sm:w-52"
                                 >
                                     {product.companyLogo ? (
                                         <img
@@ -169,10 +191,10 @@ export default function LogoMarquee() {
                                             alt={`${product.companyName} logo`}
                                             title={product.companyName}
                                             draggable={false}
-                                            className="pointer-events-auto h-20 w-44 object-contain transition duration-300 hover:scale-110 sm:h-28 sm:w-64"
+                                            className="h-16 w-36 object-contain transition-transform duration-300 hover:scale-105 motion-reduce:transform-none motion-reduce:transition-none sm:h-20 sm:w-48"
                                         />
                                     ) : (
-                                        <span className="text-center text-xl font-bold text-slate-300">
+                                        <span className="px-2 text-center text-lg font-bold text-slate-300">
                       {product.companyName}
                     </span>
                                     )}

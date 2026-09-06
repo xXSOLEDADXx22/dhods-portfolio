@@ -276,6 +276,8 @@ Dhods deserves this recommendation. He is a solid addition to any team. Salamat 
     ],
 
     contact: {
-        heading: "Let’s build something meaningful",
-        },
+        heading: "Let’s Connect",
+        description:
+            "I’m always open to meaningful conversations, quality-focused collaboration, and opportunities where technology can create real impact.",
+    },
 };

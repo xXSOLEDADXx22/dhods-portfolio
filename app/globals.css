@@ -547,6 +547,330 @@ section[id] {
   }
 }
 
+/* Commitments cards */
+.commitment-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 1.75rem;
+  background: #10101c;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.2);
+  transition:
+          border-color 350ms ease,
+          box-shadow 350ms ease;
+}
+
+/*
+  The small, equal inset protects photo corners from
+  the outer card's rounded clipping.
+*/
+.commitment-card__image-frame {
+  flex-shrink: 0;
+  aspect-ratio: 16 / 10;
+  margin: 1rem 1rem 0;
+  background: #10101c;
+}
+
+/* Complete image, aligned to the same top edge */
+.commitment-card__image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center top;
+}
+
+/* Fallback when no image is provided */
+.commitment-card__placeholder {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+          135deg,
+          rgba(59, 130, 246, 0.2),
+          rgba(139, 92, 246, 0.2),
+          rgba(236, 72, 153, 0.15)
+  );
+}
+
+/* Glass panel with stable spacing */
+.commitment-card__content {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  overflow: hidden;
+  padding: 1.5rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  text-align: center;
+  background: rgba(255, 255, 255, 0.025);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  transition:
+          background-color 450ms ease,
+          border-color 450ms ease;
+}
+
+/* Colored glow behind the text */
+.commitment-card__content::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  background:
+          radial-gradient(
+                  ellipse at top left,
+                  rgba(59, 130, 246, 0.22),
+                  transparent 65%
+          ),
+          radial-gradient(
+                  ellipse at bottom right,
+                  rgba(236, 72, 153, 0.18),
+                  transparent 65%
+          );
+  transition: opacity 450ms ease;
+}
+
+/* Glass reflection */
+.commitment-card__shine {
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+          110deg,
+          transparent 25%,
+          rgba(255, 255, 255, 0.08) 50%,
+          transparent 75%
+  );
+  transform: translateX(-120%);
+}
+
+.commitment-card__category {
+  margin: 0 0 1rem;
+  padding: 0.5rem 1rem;
+  border: 1px solid rgba(167, 139, 250, 0.25);
+  border-radius: 999px;
+  background: rgba(139, 92, 246, 0.1);
+  color: #c4b5fd;
+  font-size: 0.75rem;
+  font-weight: 700;
+  line-height: 1.5;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  transition:
+          color 350ms ease,
+          background-color 350ms ease,
+          border-color 350ms ease;
+}
+
+.commitment-card__accent {
+  flex-shrink: 0;
+  width: 3.5rem;
+  height: 3px;
+  margin-bottom: 1.25rem;
+  border-radius: 999px;
+  background: linear-gradient(
+          90deg,
+          #3b82f6,
+          #8b5cf6,
+          #ec4899
+  );
+  transition:
+          transform 450ms ease,
+          box-shadow 450ms ease;
+}
+
+.commitment-card__title {
+  width: 100%;
+  min-height: 3.9em;
+  margin: 0;
+  color: #ffffff;
+  font-size: clamp(1.125rem, 1.6vw, 1.5rem);
+  font-weight: 800;
+  line-height: 1.3;
+  text-wrap: balance;
+  overflow-wrap: anywhere;
+  transition: color 350ms ease;
+}
+
+.commitment-card__description {
+  margin: 0.75rem 0 0;
+  color: #cbd5e1;
+  font-size: 0.875rem;
+  line-height: 1.75;
+  overflow-wrap: anywhere;
+  transition: color 350ms ease;
+}
+
+@keyframes commitment-glass-shine {
+  from {
+    transform: translateX(-120%);
+  }
+
+  to {
+    transform: translateX(120%);
+  }
+}
+
+/* Desktop hover: visual changes without resizing the card */
+@media (hover: hover) and (pointer: fine) {
+  .commitment-card:hover {
+    border-color: rgba(167, 139, 250, 0.6);
+    box-shadow:
+            0 16px 40px rgba(0, 0, 0, 0.3),
+            0 0 24px rgba(139, 92, 246, 0.15);
+  }
+
+  .commitment-card:hover .commitment-card__content {
+    background-color: rgba(139, 92, 246, 0.07);
+    border-top-color: rgba(167, 139, 250, 0.3);
+  }
+
+  .commitment-card:hover .commitment-card__content::before {
+    opacity: 1;
+  }
+
+  .commitment-card:hover .commitment-card__shine {
+    animation: commitment-glass-shine 900ms ease-out both;
+  }
+
+  .commitment-card:hover .commitment-card__category {
+    color: #f9a8d4;
+    border-color: rgba(236, 72, 153, 0.45);
+    background-color: rgba(236, 72, 153, 0.12);
+  }
+
+  .commitment-card:hover .commitment-card__accent {
+    transform: scaleX(1.5);
+    box-shadow: 0 0 14px rgba(139, 92, 246, 0.5);
+  }
+
+  .commitment-card:hover .commitment-card__title {
+    color: #ddd6fe;
+  }
+
+  .commitment-card:hover .commitment-card__description {
+    color: #f1f5f9;
+  }
+}
+
+/* About section glass cards */
+.about-glass-card {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 1.5rem;
+  background: rgba(255, 255, 255, 0.045);
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.18);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  transition:
+          transform 400ms ease,
+          border-color 400ms ease,
+          background-color 400ms ease,
+          box-shadow 400ms ease;
+}
+
+.about-glass-card::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  background:
+          radial-gradient(
+                  circle at top left,
+                  rgba(59, 130, 246, 0.2),
+                  transparent 45%
+          ),
+          radial-gradient(
+                  circle at bottom right,
+                  rgba(236, 72, 153, 0.16),
+                  transparent 50%
+          );
+  transition: opacity 400ms ease;
+}
+
+.about-glass-card::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+          110deg,
+          transparent 30%,
+          rgba(255, 255, 255, 0.1) 50%,
+          transparent 70%
+  );
+  transform: translateX(-130%);
+}
+
+@keyframes about-glass-shimmer {
+  from {
+    transform: translateX(-130%);
+  }
+
+  to {
+    transform: translateX(130%);
+  }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .about-glass-card:hover {
+    transform: translateY(-6px);
+    border-color: rgba(167, 139, 250, 0.65);
+    background: rgba(255, 255, 255, 0.07);
+    box-shadow:
+            0 20px 42px rgba(0, 0, 0, 0.26),
+            0 0 28px rgba(139, 92, 246, 0.16);
+  }
+
+  .about-glass-card:hover::before {
+    opacity: 1;
+  }
+
+  .about-glass-card:hover::after {
+    animation: about-glass-shimmer 900ms ease-out both;
+  }
+
+  .about-glass-card:hover .about-glass-card__accent {
+    width: 6rem;
+    box-shadow: 0 0 14px rgba(168, 85, 247, 0.6);
+  }
+}
+
+/* Respect reduced-motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  .commitment-card,
+  .commitment-card__content,
+  .commitment-card__content::before,
+  .commitment-card__category,
+  .commitment-card__accent,
+  .commitment-card__title,
+  .commitment-card__description {
+    transition: none;
+  }
+
+  .commitment-card:hover .commitment-card__shine {
+    animation: none;
+  }
+
+  .commitment-card:hover .commitment-card__accent {
+    transform: none;
+  }
+}
+
 /* =========================================================
    Accessibility
 ========================================================= */

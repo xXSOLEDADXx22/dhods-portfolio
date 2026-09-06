@@ -244,27 +244,24 @@ Dhods deserves this recommendation. He is a solid addition to any team. Salamat 
     commitments: [
         {
             category: "Ministry",
-            date: "Present",
-            title: "Church and Digital Ministry",
+            title: "Church and Digital",
             description:
                 "Serving through technology, graphic design, social media, youth activities, and digital communication.",
             image: "/commitments/ministry.png",
         },
         {
-            category: "Volunteer Work",
-            date: "Ongoing",
+            category: "Volunteer",
             title: "Community Events",
             description:
                 "Participating in community initiatives that encourage service, collaboration, and meaningful human connection.",
-            image: "/commitments/volunteer-work.png",
+            image: "/commitments/Volunteer.png",
         },
         {
             category: "Stewardship",
-            date: "Ongoing",
             title: "Environmental Activities",
             description:
                 "Supporting tree-planting and environmental activities that promote responsible stewardship of God’s creation.",
-            image: "/commitments/stewardship.png",
+            image: "/commitments/Stewardship.png",
         },
     ],
 
@@ -280,7 +277,5 @@ Dhods deserves this recommendation. He is a solid addition to any team. Salamat 
 
     contact: {
         heading: "Let’s build something meaningful",
-        description:
-            "I’m open to opportunities involving Quality Assurance, Agile, AI automation, creative collaboration, and technology-driven ministry.",
-    },
+        },
 };

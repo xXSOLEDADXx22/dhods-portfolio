@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useEffect, useState } from "react";
 
 const navigationLinks = [
@@ -24,10 +25,6 @@ const navigationLinks = [
 export default function SiteNavigation() {
     const [menuOpen, setMenuOpen] = useState(false);
 
-    /*
-     * Close the menu using Escape and prevent the
-     * background page from scrolling while it is open.
-     */
     useEffect(() => {
         if (!menuOpen) {
             return;
@@ -60,15 +57,21 @@ export default function SiteNavigation() {
             {/* Main navigation bar */}
             <nav className="fixed left-0 top-0 z-50 w-full border-b border-white/10 bg-[#060610]/80 backdrop-blur-xl">
                 <div className="mx-auto flex h-20 max-w-6xl items-center justify-between px-4 sm:px-6">
-                    {/* Logo */}
+                    {/* Image logo */}
                     <a
                         href="#home"
                         onClick={closeMenu}
                         aria-label="Go to the top of the page"
-                        className="relative z-[70] text-xl font-black tracking-tight text-white"
+                        className="relative z-[70] flex items-center rounded-lg transition hover:scale-105 hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-violet-400"
                     >
-                        Dhods
-                        <span className="text-pink-400">.</span>
+                        <Image
+                            src="/images/dhods-logo.png"
+                            alt="Dhods logo"
+                            width={48}
+                            height={48}
+                            priority
+                            className="h-10 w-10 object-contain sm:h-11 sm:w-11"
+                        />
                     </a>
 
                     {/* Desktop navigation */}
@@ -85,7 +88,6 @@ export default function SiteNavigation() {
                             </a>
                         ))}
 
-                        {/* Primary desktop action */}
                         <a
                             href="#contact"
                             className="connect-ring inline-flex h-11 shrink-0 items-center justify-center rounded-full bg-gradient-to-r from-blue-500 via-violet-500 to-pink-500 px-6 text-sm font-bold leading-none text-white shadow-lg shadow-violet-500/20 transition hover:brightness-110"
@@ -120,7 +122,6 @@ export default function SiteNavigation() {
                     role="presentation"
                     onClick={closeMenu}
                 >
-                    {/* Decorative background lights */}
                     <div className="pointer-events-none absolute left-[-5rem] top-1/3 h-48 w-48 rounded-full bg-blue-500/15 blur-3xl" />
                     <div className="pointer-events-none absolute bottom-20 right-[-5rem] h-56 w-56 rounded-full bg-pink-500/15 blur-3xl" />
 
@@ -132,7 +133,6 @@ export default function SiteNavigation() {
                         className="mobile-menu-panel relative ml-auto w-full max-w-sm overflow-hidden rounded-3xl border border-white/15 bg-[#0d0d19]/80 p-5 shadow-2xl shadow-black/50 backdrop-blur-2xl"
                         onClick={(event) => event.stopPropagation()}
                     >
-                        {/* Drawer glow */}
                         <div className="pointer-events-none absolute -right-16 -top-16 h-40 w-40 rounded-full bg-violet-500/20 blur-3xl" />
                         <div className="pointer-events-none absolute -bottom-20 -left-12 h-44 w-44 rounded-full bg-blue-500/15 blur-3xl" />
 
@@ -141,10 +141,16 @@ export default function SiteNavigation() {
                             <a
                                 href="#home"
                                 onClick={closeMenu}
-                                className="text-xl font-black tracking-tight text-white"
+                                aria-label="Go to the top of the page"
+                                className="flex items-center rounded-lg transition hover:scale-105 hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-violet-400"
                             >
-                                Dhods
-                                <span className="text-pink-400">.</span>
+                                <Image
+                                    src="/images/dhods-logo.png"
+                                    alt="Dhods logo"
+                                    width={44}
+                                    height={44}
+                                    className="h-9 w-9 object-contain"
+                                />
                             </a>
 
                             <button
@@ -157,7 +163,6 @@ export default function SiteNavigation() {
                             </button>
                         </div>
 
-                        {/* Navigation label */}
                         <p className="relative mb-3 mt-6 text-[10px] font-bold uppercase tracking-[0.25em] text-slate-500">
                             Navigation
                         </p>
@@ -176,7 +181,6 @@ export default function SiteNavigation() {
                                 >
                   <span className="flex items-center gap-3">
                     <span className="h-1.5 w-1.5 rounded-full bg-slate-600 transition group-hover:bg-violet-400 group-hover:shadow-[0_0_8px_rgba(167,139,250,0.8)]" />
-
                       {link.label}
                   </span>
 
@@ -199,7 +203,6 @@ export default function SiteNavigation() {
                             Let&apos;s Connect
                         </a>
 
-                        {/* Menu footer */}
                         <p className="relative mt-5 border-t border-white/10 pt-4 text-center text-[10px] uppercase tracking-[0.18em] text-slate-600">
                             Quality in every delivery
                         </p>

@@ -1,6 +1,8 @@
 /* eslint-disable @next/next/no-img-element */
 
 import BackToTop from "@/components/BackToTop";
+import AboutVideo from "@/components/AboutVideo";
+import CommitmentsCarousel from "@/components/CommitmentsCarousel";
 import EndorsementFormModal from "@/components/EndorsementFormModal";
 import ImpactMetrics from "@/components/ImpactMetrics";
 import LogoMarquee from "@/components/LogoMarquee";
@@ -128,36 +130,28 @@ export default function Home() {
                 className="flex min-h-[calc(100dvh-5rem)] items-center bg-[#0d0d19] px-4 py-12 sm:px-6 sm:py-16"
             >
                 <div className="mx-auto w-full max-w-6xl">
-                    <p className="section-label">About Me</p>
+                    <div className="mb-8 text-center md:text-left">
+                        <p className="section-label">About Me</p>
 
-                    <h2 className="section-heading">
-                        {portfolio.about.heading}
-                    </h2>
+                        <h2 className="section-heading mb-0">
+                            {portfolio.about.heading}
+                        </h2>
+                    </div>
 
-                    <div className="grid gap-6 md:grid-cols-2">
-                        <article className="glass-card">
-                            <div className="mb-5 h-1 w-16 rounded-full bg-gradient-to-r from-blue-500 to-violet-500" />
+                    {/* Personal story video */}
+                    <div className="group relative mx-auto w-full max-w-4xl overflow-hidden rounded-[1.5rem] border border-white/10 bg-white/[0.04] p-2 shadow-xl shadow-violet-500/10 backdrop-blur-xl transition duration-500 hover:border-violet-400/50 hover:shadow-violet-500/20 sm:p-3">
+                        {/* Glass glow */}
+                        <div className="pointer-events-none absolute -left-24 -top-24 h-56 w-56 rounded-full bg-blue-500/20 blur-3xl transition duration-500 group-hover:bg-violet-500/25" />
 
-                            <h3 className="mb-4 text-xl font-bold">
-                                Professional Journey
-                            </h3>
+                        <div className="pointer-events-none absolute -bottom-24 -right-24 h-56 w-56 rounded-full bg-pink-500/15 blur-3xl transition duration-500 group-hover:bg-pink-500/25" />
 
-                            <p className="leading-relaxed text-slate-300">
-                                {portfolio.about.professional}
-                            </p>
-                        </article>
-
-                        <article className="glass-card">
-                            <div className="mb-5 h-1 w-16 rounded-full bg-gradient-to-r from-violet-500 to-pink-500" />
-
-                            <h3 className="mb-4 text-xl font-bold">
-                                Technology &amp; Ministry
-                            </h3>
-
-                            <p className="leading-relaxed text-slate-300">
-                                {portfolio.about.ministry}
-                            </p>
-                        </article>
+                        {/* Video only — no content panel below */}
+                        <div className="relative overflow-hidden rounded-[1.1rem] bg-[#060610]">
+                            <AboutVideo
+                                src="/videos/about-dhods.mp4"
+                                poster="/videos/about-dhods-poster.jpg"
+                            />
+                        </div>
                     </div>
                 </div>
             </section>
@@ -207,64 +201,27 @@ export default function Home() {
             {/* Commitments */}
             <section
                 id="commitments"
-                className="flex min-h-[calc(100dvh-5rem)] items-center px-4 py-12 sm:px-6 sm:py-16"
+                className="flex min-h-[calc(100dvh-5rem)] items-center overflow-x-hidden px-4 py-12 sm:px-6 sm:py-16"
             >
                 <div className="mx-auto w-full max-w-6xl">
-                    <p className="section-label">Beyond Work</p>
+                    <div className="mb-10 text-center md:text-left">
+                        <p className="section-label">Beyond Work</p>
 
-                    <h2 className="section-heading">
-                        Volunteer Work &amp; Commitments
-                    </h2>
-
-                    <div className="grid gap-6 md:grid-cols-3">
-                        {portfolio.commitments.map((commitment) => (
-                            <article
-                                key={commitment.title}
-                                className="group overflow-hidden rounded-3xl border border-white/10 bg-white/5"
-                            >
-                                <div className="flex h-48 items-center justify-center overflow-hidden bg-gradient-to-br from-blue-500/20 via-violet-500/20 to-pink-500/20">
-                                    {commitment.image ? (
-                                        <img
-                                            src={commitment.image}
-                                            alt={commitment.title}
-                                            className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
-                                        />
-                                    ) : (
-                                        <span className="px-6 text-center text-lg font-bold text-slate-300">
-                            {commitment.category}
-                          </span>
-                                    )}
-                                </div>
-
-                                <div className="p-6">
-                                    <div className="mb-3 flex items-center justify-between gap-3 text-sm">
-                        <span className="text-violet-400">
-                          {commitment.category}
-                        </span>
-
-                                        <span className="text-slate-500">
-                          {commitment.date}
-                        </span>
-                                    </div>
-
-                                    <h3 className="mb-3 text-xl font-bold">
-                                        {commitment.title}
-                                    </h3>
-
-                                    <p className="leading-relaxed text-slate-300">
-                                        {commitment.description}
-                                    </p>
-                                </div>
-                            </article>
-                        ))}
+                        <h2 className="section-heading mb-0">
+                            Commitments That Matter
+                        </h2>
                     </div>
+
+                    <CommitmentsCarousel
+                        commitments={portfolio.commitments}
+                    />
                 </div>
             </section>
 
             {/* Contact */}
             <section
                 id="contact"
-                className="flex min-h-[calc(100dvh-5rem)] items-center bg-[#0d0d19] px-4 py-12 sm:px-6 sm:py-16"
+                className="bg-[#0d0d19] px-4 pb-12 pt-24 sm:px-6 sm:pb-16 sm:pt-28 md:flex md:min-h-[calc(100dvh-5rem)] md:items-center md:py-16"
             >
                 <div className="mx-auto w-full max-w-4xl text-center">
                     <p className="section-label">Contact</p>

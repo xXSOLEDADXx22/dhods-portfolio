@@ -247,7 +247,7 @@ Dhods deserves this recommendation. He is a solid addition to any team. Salamat 
             title: "Church and Digital",
             description:
                 "Serving through technology, graphic design, social media, youth activities, and digital communication.",
-            image: "/commitments/ministry.png",
+            image: "/commitments/Ministry.png",
         },
         {
             category: "Volunteer",
